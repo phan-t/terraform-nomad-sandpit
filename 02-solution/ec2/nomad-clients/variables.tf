@@ -17,3 +17,8 @@ variable "bastion_public_fqdn" {
   description = "Public fqdn of bastion node"
   type        =  string 
 }
+
+variable "datacenter" {
+  description = "datacenter"
+  type        = string
+}

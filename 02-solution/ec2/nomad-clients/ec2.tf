@@ -7,7 +7,7 @@ locals {
 
 resource "local_file" "nomad-client-config" {
   content = templatefile("${path.module}/templates/nomad-client-config.hcl.tpl", {
-    datacenter = "dc1"
+    datacenter = var.datacenter
     deployment_id = var.deployment_id
     region     = lookup(local.region_friendly_mapping, var.region)
   })
@@ -30,12 +30,12 @@ data "aws_ami" "nomad" {
 
   filter {
     name   = "name"
-    values = ["nomad-ubuntu-*"]
+    values = ["nomad-client-ubuntu-*"]
   }
 
   filter {
     name   = "tag:application"
-    values = ["nomad"]
+    values = ["nomad-client"]
   }
 }
 
@@ -82,7 +82,7 @@ resource "aws_instance" "nomad-client" {
       "sudo mkdir /var/tmp/nomad-client-configs",
       "sudo unzip -d /var/tmp/nomad-client-configs /var/tmp/nomad-client-config-bundle.zip",
       "sudo cp /var/tmp/nomad-client-configs/${lookup(local.region_friendly_mapping, var.region)}-client-config.hcl.tmp /opt/nomad/config/config.hcl",
-      "sudo /opt/nomad/bin/run-nomad"
+      "sudo /opt/nomad/bin/run-nomad-client"
     ]
   }
 }

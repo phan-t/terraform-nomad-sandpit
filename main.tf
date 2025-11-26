@@ -78,6 +78,7 @@ module "solution-ec2-nomad-client-region-1" {
   }
 
   region                 = var.aws_region_1
+  datacenter             = "dc1" 
   deployment_id          = "${local.deployment_id}-region-1"
   key_pair_private_key   = module.infra-aws-region-1.key_pair_private_key
   bastion_public_fqdn    = module.infra-aws-region-1.bastion_public_fqdn
@@ -111,6 +112,7 @@ module "solution-ec2-nomad-client-region-2" {
   }
 
   region                 = var.aws_region_2
+  datacenter             = "dc1" 
   deployment_id          = "${local.deployment_id}-region-2"
   key_pair_private_key   = module.infra-aws-region-2.key_pair_private_key
   bastion_public_fqdn    = module.infra-aws-region-2.bastion_public_fqdn
