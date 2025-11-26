@@ -68,4 +68,9 @@ build {
     inline       = ["if test -n \"${var.nomad_download_url}\"; then", "/tmp/terraform-nomad-sandpit/examples/amis/nomad/scripts/install-nomad-client --user ${var.nomad_user} --download-url ${var.nomad_download_url};", "else", "/tmp/terraform-nomad-sandpit/examples/amis/nomad/scripts/install-nomad-client --user ${var.nomad_user} --version ${var.nomad_version};", "fi"]
     pause_before = "30s"
   }
+
+  provisioner "shell" {
+    inline       = ["sudo apt update && sudo apt install -y openjdk-17-jre"]
+    pause_before = "30s"
+  }
 }
