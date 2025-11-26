@@ -48,6 +48,8 @@ module "infra-aws-tgw-peering" {
   deployment_id = local.deployment_id
   region_1      = var.aws_region_1
   region_2      = var.aws_region_2
+
+  depends_on = [ module.infra-aws-region-1, module.infra-aws-region-2 ]
 }
 
 # hashicorp nomad enterprise server ec2 deployment region 1
@@ -66,6 +68,8 @@ module "solution-ec2-nomad-server-region-1" {
   nomad_ent_license      = var.nomad_ent_license
   route53_sandbox_prefix = var.aws_route53_sandbox_prefix
   nomad_federation_peer_address = ""
+
+  depends_on = [ module.infra-aws-region-1 ]
 }
 
 # hashicorp nomad enterprise client ec2 deployment region 1
@@ -82,6 +86,8 @@ module "solution-ec2-nomad-client-region-1" {
   deployment_id          = "${local.deployment_id}-region-1"
   key_pair_private_key   = module.infra-aws-region-1.key_pair_private_key
   bastion_public_fqdn    = module.infra-aws-region-1.bastion_public_fqdn
+
+  depends_on = [ module.solution-ec2-nomad-server-region-1 ]
 }
 
 # hashicorp nomad enterprise server ec2 deployment region 2
@@ -100,6 +106,8 @@ module "solution-ec2-nomad-server-region-2" {
   nomad_ent_license      = var.nomad_ent_license
   route53_sandbox_prefix = var.aws_route53_sandbox_prefix
   nomad_federation_peer_address = "${module.solution-ec2-nomad-server-region-1.nomad-private-ip}:4648"
+
+  depends_on = [ module.infra-aws-region-2 ]
 }
 
 # hashicorp nomad enterprise client ec2 deployment region 2
@@ -116,4 +124,6 @@ module "solution-ec2-nomad-client-region-2" {
   deployment_id          = "${local.deployment_id}-region-2"
   key_pair_private_key   = module.infra-aws-region-2.key_pair_private_key
   bastion_public_fqdn    = module.infra-aws-region-2.bastion_public_fqdn
+
+  depends_on = [ module.solution-ec2-nomad-server-region-2 ]
 }
