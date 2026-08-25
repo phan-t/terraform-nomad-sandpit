@@ -53,4 +53,6 @@ kubeconfig*
 *.tmp
 
 # Ignore key files
-*.key
+*.key.terraform/
+*.tfvars.json
+.terraform.tfstate.lock.info
